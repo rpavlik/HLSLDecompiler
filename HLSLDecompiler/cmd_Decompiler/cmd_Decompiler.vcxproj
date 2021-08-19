@@ -153,11 +153,12 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
     </Link>
     <PostBuildEvent>
-      <Command>
-      </Command>
+      <Command>xcopy "$(WindowsSdkDir)redist\d3d\x86\d3dcompiler_*.dll" "$(TargetDir)" /E /Y
+
+</Command>
     </PostBuildEvent>
     <PostBuildEvent>
-      <Message>Copy D3Dcompiler_46.dll</Message>
+      <Message>Copy D3Dcompiler DLL</Message>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -176,12 +177,12 @@
       <AdditionalDependencies>d3dcompiler.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy “$(WindowsSdkDir_80)redist\d3d\x64\d3dcompiler_46.dll” “$(TargetDir)” /E /Y
+      <Command>xcopy "$(WindowsSdkDir)redist\d3d\x64\d3dcompiler_*.dll" "$(TargetDir)" /E /Y
 
 </Command>
     </PostBuildEvent>
     <PostBuildEvent>
-      <Message>Copy D3Dcompiler_46.dll</Message>
+      <Message>Copy D3Dcompiler DLL</Message>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -205,11 +206,12 @@
       <AdditionalDependencies>d3dcompiler.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>
-      </Command>
+      <Command>xcopy "$(WindowsSdkDir)redist\d3d\x86\d3dcompiler_*.dll" "$(TargetDir)" /E /Y
+
+</Command>
     </PostBuildEvent>
     <PostBuildEvent>
-      <Message>Copy D3Dcompiler_46.dll</Message>
+      <Message>Copy D3Dcompiler DLL</Message>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -234,12 +236,12 @@
       <AdditionalDependencies>d3dcompiler.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy “$(WindowsSdkDir_80)redist\d3d\x64\d3dcompiler_46.dll” “$(TargetDir)” /E /Y
+      <Command>xcopy "$(WindowsSdkDir)redist\d3d\x64\d3dcompiler_*.dll" "$(TargetDir)" /E /Y
 
 </Command>
     </PostBuildEvent>
     <PostBuildEvent>
-      <Message>Copy D3Dcompiler_46.dll</Message>
+      <Message>Copy D3Dcompiler DLL</Message>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Zip Release|Win32'">
@@ -262,12 +264,12 @@
       <AdditionalDependencies>d3dcompiler.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy “$(WindowsSdkDir_80)redist\d3d\x86\d3dcompiler_46.dll” “$(TargetDir)” /E /Y
+      <Command>xcopy "$(WindowsSdkDir)redist\d3d\x86\d3dcompiler_*.dll" "$(TargetDir)" /E /Y
 
 </Command>
     </PostBuildEvent>
     <PostBuildEvent>
-      <Message>Copy D3Dcompiler_46.dll</Message>
+      <Message>Copy D3Dcompiler DLL</Message>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Zip Release|x64'">
@@ -290,12 +292,12 @@
       <AdditionalDependencies>d3dcompiler.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy “$(WindowsSdkDir_80)redist\d3d\x64\d3dcompiler_46.dll” “$(TargetDir)” /E /Y
+      <Command>xcopy "$(WindowsSdkDir)redist\d3d\x64\d3dcompiler_*.dll" "$(TargetDir)" /E /Y
 
 </Command>
     </PostBuildEvent>
     <PostBuildEvent>
-      <Message>Copy D3Dcompiler_46.dll</Message>
+      <Message>Copy D3Dcompiler DLL</Message>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
