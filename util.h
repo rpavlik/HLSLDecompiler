@@ -18,6 +18,10 @@
 
 #include "D3D_Shaders\stdafx.h"
 
+#include <Unknwn.h>
+#include <string_view>
+#include <winrt/base.h>
+
 // #include "DirectX11\HookedDevice.h"
 // #include "DirectX11\HookedContext.h"
 
@@ -535,8 +539,7 @@ static std::string NameFromIID(IID id)
 	wchar_t wiid[128];
 	if (SUCCEEDED(StringFromGUID2(id, wiid, 128)))
 	{
-		std::wstring convert = std::wstring(wiid);
-		iidString = std::string(convert.begin(), convert.end());
+		iidString = winrt::to_string(std::wstring_view(wiid));
 	}
 	else
 	{
