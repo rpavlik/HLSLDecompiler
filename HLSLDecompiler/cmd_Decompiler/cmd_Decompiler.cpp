@@ -168,7 +168,7 @@ static HRESULT DisassembleMS(const void *pShaderBytecode, size_t BytecodeLength,
 static HRESULT DisassembleFlugan(const void *pShaderBytecode, size_t BytecodeLength, string *asmText)
 {
 	// FIXME: This is a bit of a waste - we convert from a vector<char> to
-	// a void* + size_t to a vector<byte>
+	// a void* + size_t to a vector<::byte>
 
 	*asmText = BinaryToAsmText(pShaderBytecode, BytecodeLength);
 	if (*asmText == "")
@@ -179,11 +179,11 @@ static HRESULT DisassembleFlugan(const void *pShaderBytecode, size_t BytecodeLen
 
 static int validate_assembly(string *assembly, vector<char> *orig_bytecode)
 {
-	vector<byte> new_bytecode(orig_bytecode->size());
-	vector<byte> assembly_vec(assembly->begin(), assembly->end());
+	vector<::byte> new_bytecode(orig_bytecode->size());
+	vector<::byte> assembly_vec(assembly->begin(), assembly->end());
 
 	// Assemble the disassembly and compare it to the original bytecode
-	new_bytecode = assembler(assembly_vec, *reinterpret_cast<vector<byte>*>(orig_bytecode));
+	new_bytecode = assembler(assembly_vec, *reinterpret_cast<vector<::byte>*>(orig_bytecode));
 
 	if (memcmp(orig_bytecode->data(), new_bytecode.data(), orig_bytecode->size())) {
 		LogInfo("\n*** Assembly verification pass failed!\n");
@@ -672,7 +672,7 @@ static bool parse_section(string *line, string *shader, size_t *pos, void **sect
 	return false;
 }
 
-static void serialise_shader_binary(vector<void*> *sections, uint32_t all_sections_size, vector<byte> *bytecode)
+static void serialise_shader_binary(vector<void*> *sections, uint32_t all_sections_size, vector<::byte> *bytecode)
 {
 	struct dxbc_header *header = NULL;
 	uint32_t *section_offset_ptr = NULL;
@@ -705,7 +705,7 @@ static void serialise_shader_binary(vector<void*> *sections, uint32_t all_sectio
 	}
 }
 
-static HRESULT manufacture_shader_binary(const void *pShaderAsm, size_t AsmLength, vector<byte> *bytecode)
+static HRESULT manufacture_shader_binary(const void *pShaderAsm, size_t AsmLength, vector<::byte> *bytecode)
 {
 	string shader_str((const char*)pShaderAsm, AsmLength);
 	string line;
@@ -754,8 +754,8 @@ out_free:
 
 static HRESULT AssembleFlugan(vector<char> *assembly, string *bytecode)
 {
-	vector<byte> new_bytecode;
-	vector<byte> manufactured_bytecode;
+	vector<::byte> new_bytecode;
+	vector<::byte> manufactured_bytecode;
 	HRESULT hr;
 
 	// Flugan's assembler normally cheats and reuses sections from the
@@ -770,7 +770,7 @@ static HRESULT AssembleFlugan(vector<char> *assembly, string *bytecode)
 	if (FAILED(hr))
 		return E_FAIL;
 
-	new_bytecode = assembler(*reinterpret_cast<vector<byte>*>(assembly), manufactured_bytecode);
+	new_bytecode = assembler(*reinterpret_cast<vector<::byte>*>(assembly), manufactured_bytecode);
 
 	*bytecode = string(new_bytecode.begin(), new_bytecode.end());
 

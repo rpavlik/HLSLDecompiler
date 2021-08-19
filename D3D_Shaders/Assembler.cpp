@@ -295,8 +295,8 @@ string assembleAndCompare(string s, vector<DWORD> v) {
 	return ret;
 }
 
-HRESULT disassembler(vector<byte> *buffer, vector<byte> *ret, const char *comment) {
-	byte fourcc[4];
+HRESULT disassembler(vector<::byte> *buffer, vector<::byte> *ret, const char *comment) {
+	::byte fourcc[4];
 	DWORD fHash[4];
 	DWORD one;
 	DWORD fSize;
@@ -306,7 +306,7 @@ HRESULT disassembler(vector<byte> *buffer, vector<byte> *ret, const char *commen
 	// TODO: Add robust error checking here (buffer is at least as large as
 	// the header, etc). I've added a check for numChunks < 1 as that
 	// would lead to codeByteStart being used uninitialised
-	byte* pPosition = buffer->data();
+	::byte* pPosition = buffer->data();
 	std::memcpy(fourcc, pPosition, 4);
 	pPosition += 4;
 	std::memcpy(fHash, pPosition, 16);
@@ -324,7 +324,7 @@ HRESULT disassembler(vector<byte> *buffer, vector<byte> *ret, const char *commen
 
 	char* asmBuffer;
 	size_t asmSize;
-	vector<byte> asmBuf;
+	vector<::byte> asmBuf;
 	ID3DBlob* pDissassembly = NULL;
 	HRESULT ok = D3DDisassemble(buffer->data(), buffer->size(), D3D_DISASM_ENABLE_DEFAULT_VALUE_PRINTS, comment, &pDissassembly);
 	if (FAILED(ok))
@@ -333,7 +333,7 @@ HRESULT disassembler(vector<byte> *buffer, vector<byte> *ret, const char *commen
 	asmBuffer = (char*)pDissassembly->GetBufferPointer();
 	asmSize = pDissassembly->GetBufferSize();
 
-	byte* codeByteStart;
+	::byte* codeByteStart;
 	int codeChunk = 0;
 	for (DWORD i = 1; i <= numChunks; i++) {
 		codeChunk = numChunks - i;
@@ -1872,8 +1872,8 @@ vector<DWORD> assembleIns(string s) {
 	return v;
 }
 
-vector<byte> readFile(string fileName) {
-	vector<byte> buffer;
+vector<::byte> readFile(string fileName) {
+	vector<::byte> buffer;
 	FILE* f;
 	fopen_s(&f, fileName.c_str(), "rb");
 	if (f != NULL) {
@@ -1915,7 +1915,7 @@ vector<string> stringToLines(const char* start, size_t size) {
 	return lines;
 }
 
-vector<DWORD> ComputeHash(byte const* input, DWORD size) {
+vector<DWORD> ComputeHash(::byte const* input, DWORD size) {
 	DWORD esi;
 	DWORD ebx;
 	DWORD i = 0;
@@ -2045,11 +2045,11 @@ vector<DWORD> ComputeHash(byte const* input, DWORD size) {
 }
 
 // Dead code (any reason to keep this?)
-string shaderModel(byte* buffer) {
+string shaderModel(::byte* buffer) {
 	DWORD numChunks;
 	vector<DWORD> chunkOffsets;
 
-	byte* pPosition = buffer;
+	::byte* pPosition = buffer;
 	pPosition += 28;
 	numChunks = *(DWORD*)pPosition;
 	if (numChunks < 1)
@@ -2058,7 +2058,7 @@ string shaderModel(byte* buffer) {
 	chunkOffsets.resize(numChunks);
 	std::memcpy(chunkOffsets.data(), pPosition, 4 * numChunks);
 
-	byte* codeByteStart;
+	::byte* codeByteStart;
 	int codeChunk = 0;
 	for (DWORD i = 1; i <= numChunks; i++) {
 		codeChunk = numChunks - i;
@@ -2099,8 +2099,8 @@ string shaderModel(byte* buffer) {
 	return shaderModel;
 }
 
-vector<byte> assembler(vector<byte> asmFile, vector<byte> buffer) {
-	byte fourcc[4];
+vector<::byte> assembler(vector<::byte> asmFile, vector<::byte> buffer) {
+	::byte fourcc[4];
 	DWORD fHash[4];
 	DWORD one;
 	DWORD fSize;
@@ -2110,7 +2110,7 @@ vector<byte> assembler(vector<byte> asmFile, vector<byte> buffer) {
 	// TODO: Add robust error checking here (buffer is at least as large as
 	// the header, etc). I've added a check for numChunks < 1 as that
 	// would lead to codeByteStart being used uninitialised
-	byte* pPosition = buffer.data();
+	::byte* pPosition = buffer.data();
 	std::memcpy(fourcc, pPosition, 4);
 	pPosition += 4;
 	std::memcpy(fHash, pPosition, 16);
@@ -2130,7 +2130,7 @@ vector<byte> assembler(vector<byte> asmFile, vector<byte> buffer) {
 	size_t asmSize;
 	asmBuffer = (char*)asmFile.data();
 	asmSize = asmFile.size();
-	byte* codeByteStart;
+	::byte* codeByteStart;
 	int codeChunk = 0;
 	for (DWORD i = 1; i <= numChunks; i++) {
 		codeChunk = numChunks - i;
@@ -2181,7 +2181,7 @@ vector<byte> assembler(vector<byte> asmFile, vector<byte> buffer) {
 	buffer.erase(it, it + codeSize);
 	size_t newCodeSize = 4 * o.size();
 	codeStart[1] = (DWORD)newCodeSize;
-	vector<byte> newCode(newCodeSize);
+	vector<::byte> newCode(newCodeSize);
 	o[1] = (DWORD)o.size();
 	memcpy(newCode.data(), o.data(), newCodeSize);
 	it = buffer.begin() + chunkOffsets[codeChunk] + 8;
@@ -2191,7 +2191,7 @@ vector<byte> assembler(vector<byte> asmFile, vector<byte> buffer) {
 		dwordBuffer[8 + i] += (DWORD)(newCodeSize - codeSize);
 	}
 	dwordBuffer[6] = (DWORD)buffer.size();
-	vector<DWORD> hash = ComputeHash((byte const*)buffer.data() + 20, (DWORD)buffer.size() - 20);
+	vector<DWORD> hash = ComputeHash((::byte const*)buffer.data() + 20, (DWORD)buffer.size() - 20);
 	dwordBuffer[1] = hash[0];
 	dwordBuffer[2] = hash[1];
 	dwordBuffer[3] = hash[2];
