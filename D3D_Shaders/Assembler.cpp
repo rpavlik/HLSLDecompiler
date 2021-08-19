@@ -1,5 +1,7 @@
 #include "stdafx.h"
 
+#include <stdexcept>
+
 using namespace std;
 
 FILE* failFile = NULL;
